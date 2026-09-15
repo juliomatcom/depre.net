@@ -16,7 +16,7 @@ export interface BlackHoleOpts {
   tilt?: number;
 }
 
-/** Flat "screen-space local coords" vertex shader shared by the bloom/disk/photon meshes. */
+/** Flat "screen-space local coords" vertex shader shared by the bloom/disk meshes. */
 const RING_VERT = `
   varying vec2 vLocal;
   void main () {
@@ -26,9 +26,9 @@ const RING_VERT = `
 `;
 
 /**
- * A near face-on black hole, NASA-visualisation style: a round black shadow, a
- * thin blazing photon ring hugging it, the accretion disk seen from above as a
- * broad annulus of sheared, differentially-rotating gas, and a soft warm bloom.
+ * A near face-on black hole, NASA-visualisation style: a round black shadow,
+ * the accretion disk seen from above as a broad annulus of sheared,
+ * differentially-rotating gas, and a soft warm bloom.
  */
 export function buildBlackHole(opts: BlackHoleOpts): SceneBody {
   const rH = opts.radius;
@@ -70,9 +70,16 @@ export function buildBlackHole(opts: BlackHoleOpts): SceneBody {
   bloom.renderOrder = 0;
   group.add(bloom);
 
-  // the shadow: an opaque black disc facing the camera
+  // the shadow: a solid black disc facing the camera. Flagged transparent so it
+  // joins the bloom's render pass and its renderOrder paints it over the haze;
+  // opaque meshes always draw first, letting the additive bloom tint it.
   const shadowGeo = new THREE.CircleGeometry(rH, 64);
-  const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  const shadowMat = new THREE.MeshBasicMaterial({
+    color: 0x000000,
+    transparent: true,
+    depthWrite: false,
+    depthTest: false,
+  });
   const shadow = new THREE.Mesh(shadowGeo, shadowMat);
   shadow.renderOrder = 1;
   group.add(shadow);
@@ -113,7 +120,7 @@ export function buildBlackHole(opts: BlackHoleOpts): SceneBody {
         float shear = ang + 1.0 / (t * 0.5 + 0.12) - uTime * (1.15 - 0.7 * t);
         float streak = fbm(vec3(cos(shear), sin(shear), t * 4.2) * 1.8);
         streak = 0.14 + 1.05 * streak;
-        // radial: peak just outside the photon ring, long outward fade
+        // radial: peak just outside the shadow, long outward fade
         float radial = smoothstep(0.0, 0.06, t) * pow(1.0 - t, 1.3);
         float rim = pow(1.0 - t, 3.4); // white-hot inner lip
         // slight forward-beamed brightening on one side
@@ -131,53 +138,10 @@ export function buildBlackHole(opts: BlackHoleOpts): SceneBody {
   disk.renderOrder = 2;
   group.add(disk);
 
-  // photon ring: thin, blazing, right at the shadow's edge
-  const photonGeo = new THREE.RingGeometry(rH * 0.99, rH * 1.13, 180, 1);
-  const photonMat = new THREE.ShaderMaterial({
-    transparent: true,
-    depthWrite: false,
-    depthTest: false,
-    blending: THREE.AdditiveBlending,
-    uniforms: {
-      uTime: { value: 0 },
-      uInner: { value: rH * 0.99 },
-      uOuter: { value: rH * 1.13 },
-      uIntensity: { value: opts.intensity },
-      uColor: { value: new THREE.Color('#fff1de') },
-    },
-    vertexShader: RING_VERT,
-    fragmentShader: `
-      precision highp float;
-      uniform float uTime;
-      uniform float uInner;
-      uniform float uOuter;
-      uniform float uIntensity;
-      uniform vec3 uColor;
-      varying vec2 vLocal;
-      void main () {
-        float r = length(vLocal);
-        float t = (r - uInner) / (uOuter - uInner);
-        if (t < 0.0 || t > 1.0) discard;
-        float band = pow(sin(t * 3.14159), 1.1); // brightest mid-band
-        float ang = atan(vLocal.y, vLocal.x);
-        float doppler = 0.84 + 0.16 * (0.5 + 0.5 * cos(ang - 1.0));
-        float flick = 0.95 + 0.05 * sin(uTime * 2.5);
-        float a = band * doppler * flick * uIntensity * 2.5;
-        if (a < 0.003) discard;
-        gl_FragColor = vec4(uColor, a);
-      }
-    `,
-  });
-  const photon = new THREE.Mesh(photonGeo, photonMat);
-  photon.rotation.x = (opts.tilt ?? 0.2) * 0.4; // barely tilted -> stays round
-  photon.renderOrder = 3;
-  group.add(photon);
-
   return {
     object: group,
     update(_dt: number, time: number) {
       diskMat.uniforms.uTime.value = time;
-      photonMat.uniforms.uTime.value = time;
     },
     dispose() {
       bloomGeo.dispose();
@@ -186,8 +150,6 @@ export function buildBlackHole(opts: BlackHoleOpts): SceneBody {
       shadowMat.dispose();
       diskGeo.dispose();
       diskMat.dispose();
-      photonGeo.dispose();
-      photonMat.dispose();
     },
   };
 }
