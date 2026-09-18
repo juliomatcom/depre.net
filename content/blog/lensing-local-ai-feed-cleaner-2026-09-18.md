@@ -4,7 +4,7 @@
 
 ![Lensing icon and wordmark, "Blur what's off topic", on a dark background](/images/lensing-promo.png)
 
-A few days ago I shipped [Lensing](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) to the Chrome Web Store. It's a browser extension that blurs the posts in your feed that don't match topics you actually care about. Nothing gets deleted and nothing disappears for good, a blurred post is one click away, it just stops being the thing your thumb hits first.
+A few days ago I shipped [Lensing](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) to the Chrome Web Store. It's a browser extension that blurs the posts in your feed that don't match topics you actually care about, and by default collapses them down to a thin row so they barely take up space. Nothing gets deleted and nothing disappears for good, a blurred post is one click away, it just stops being the thing your thumb hits first.
 
 ## Why I built it
 
