@@ -22,17 +22,7 @@ This only works because small models got good enough to run in a browser tab. A 
 
 ## The model doing the work: E5-small-v2
 
-The model under the hood is E5-small-v2, out of a 2022 paper called "Text Embeddings by Weakly-Supervised Contrastive Pre-training". Here's the idea without the jargon.
-
-An embedding is a way of turning a piece of text into a list of numbers, a vector, such that texts with similar meaning land close together in that number space and unrelated ones land far apart. Once you have that, "is this post about my topic" stops being a language problem and turns into a distance problem: turn the post into a vector, turn your topic into a vector, measure how close they sit (cosine similarity), done. No keyword lists, no "contains the word crypto".
-
-Training a good embedding model usually means paying people to label pairs of sentences as related or not, which is slow and doesn't scale. E5's trick was skipping that entirely: the authors pulled around 270 million pairs of text that already sit next to each other naturally on the internet, a Reddit post and its top comment, a question and its accepted answer, a title and its body, on the bet that text placed next to text is usually related. They trained on that with contrastive learning: show the model a real pair, show it a batch of random, unrelated pairs alongside it, and nudge the model until real pairs land close and random ones land far apart. A smaller fine-tuning pass on actual labeled data sharpens it after that first big, cheap phase.
-
-The architecture itself isn't exotic, a standard BERT-style transformer that reads the text and pools the output into one fixed-size vector. It ships in three sizes, small at 33M parameters, base at 110M, large at 330M, and small is the one that makes sense running inside a browser tab instead of a server rack.
-
-One detail that actually matters if you're using this model instead of just reading about it: E5 expects you to prefix your text before embedding it, `query: ` for the thing you're comparing from, `passage: ` for the thing being compared against. Skip the prefixes and accuracy drops, quietly, no error thrown. In Lensing your topic is the query and every post is a passage. Get that backwards and the scores just get worse without telling you why.
-
-The paper's headline result: without training on any labeled data for the target task, E5 was the first embedding model to beat BM25, the decades-old keyword-search algorithm search engines were built on, on a standard retrieval benchmark. After fine-tuning, it beat embedding models forty times its size. That ratio of quality to size is exactly why it made sense for something that has to run on a laptop or a phone instead of a rack of GPUs.
+Lensing runs on E5-small-v2, a text embedding model out of Microsoft, and it's a good fit for exactly this job for three reasons. It's tiny, 33M parameters, small enough to run inside a browser tab without melting the page. It didn't need hand-labeled training data to get good, it was trained on naturally occurring pairs of text scraped from the internet, so it generalizes to "is this post about my topic" without me fine-tuning anything. And despite the size it's not a toy: zero-shot, it was the first embedding model to beat BM25, the decades-old keyword-search algorithm, on a standard benchmark, and after fine-tuning it beat models forty times its size. That's the ratio that matters when the thing has to run on a phone instead of a rack of GPUs.
 
 ## How it works
 
