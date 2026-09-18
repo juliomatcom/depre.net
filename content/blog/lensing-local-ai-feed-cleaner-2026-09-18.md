@@ -62,8 +62,12 @@ There's also a thumbs-up/thumbs-down option, off by default. Rating a post nudge
 
 If you want the actual measured numbers behind the slider, or the reasoning behind the architecture above, the source is public: [github.com/dephelion/lensing](https://github.com/dephelion/lensing), the `wiki-llm/` folder is where the design decisions and their reasoning actually live.
 
+## Next steps
+
+Right now Lensing is Chrome Web Store only. The build already runs on Firefox, MV3 works there too, it's just not published to Firefox Add-ons or the Microsoft Edge store yet. That's next, and it's not just a box to check: Firefox for Android only installs extensions that come from a curated AMO collection, no sideloading. Getting listed there is what actually puts Lensing on a phone, not a separate mobile build.
+
 ## Try it
 
-[Lensing](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) works on X, LinkedIn and Reddit today, Chrome and Firefox. Pick a few topics, give it a feed, and see what's left once the noise is gone.
+[Lensing](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) works on X, LinkedIn and Reddit today. Pick a few topics, give it a feed, and see what's left once the noise is gone.
 
 If you like this post, don't forget to say hi.
