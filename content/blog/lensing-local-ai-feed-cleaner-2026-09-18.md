@@ -28,17 +28,15 @@ Lensing runs on E5-small-v2, a text embedding model out of Microsoft, and it's a
 
 <img src="/images/lensing-how-it-works.svg" alt="Flowchart: the content script on the host page exchanges post text and scores with a hidden extension-origin iframe, which hands text to a worker thread running e5-small-v2 to embed and score it against your topics" style="max-width: 290px;" />
 
-Three pieces, each for one reason. The **content script** lives inside the page, so it's the only part that can read the feed or blur anything. The **iframe** exists because a content script can't spawn an extension-origin worker directly, cross-origin, blocked by the host page's own CSP, but a document already sitting on the extension's origin can. The **worker** runs on its own thread so scoring never blocks scrolling.
+The picture shows three pieces, and each one does one job. The **content script** sits right inside the page, watching your feed as you scroll, it's the only one that can actually see a post and blur it. As posts come in, it hands their text off to the **iframe**, whose only job is passing that text along and bringing a score back. That score comes from the **worker**, where the model itself lives: it reads the text, compares it to your topics, and works out how close a match it is.
 
-The iframe never sees the page. Strings go in, floats come out. That boundary is what actually keeps post text on your device instead of "we promise not to look at it": the model layer doesn't know what X, LinkedIn or Reddit even are, it just scores text it's handed.
+Splitting the work like that keeps the actual thinking off to the side, so it never slows down your scrolling. It's also why nothing about your feed goes anywhere: each part only ever passes along a bit of text or a number, never the page itself, and none of it leaves your device.
 
 ## How you can tune the results
 
 Strictness is a 0–10 slider, and every step is a measured threshold rather than a guess, the popup tells you roughly how much of a typical feed survives at that setting, including how much of what survives will still turn out off-topic. It won't be perfect and it doesn't pretend to be: it reads words, not pictures, so a photo with no caption can't be judged on content, and it matches subjects, not quality, so a great post and a mediocre one about the same thing both get through.
 
 There's also a thumbs-up/thumbs-down option, off by default. Rating a post nudges the vector for whichever topic came closest to claiming it, pulling it toward what you kept and away from what you blurred. There's no keyword extraction hiding in there to inspect, the post goes in as one string and comes back as one vector, so a correction lives on the topic line it shaped, and rating the same post again just undoes it.
-
-If you want the actual measured numbers behind the slider, or the reasoning behind the architecture above, the source is public: [github.com/dephelion/lensing](https://github.com/dephelion/lensing), the `wiki-llm/` folder is where the design decisions and their reasoning actually live.
 
 ## Next steps
 

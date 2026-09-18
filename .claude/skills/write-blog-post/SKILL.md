@@ -9,7 +9,8 @@ description: Use whenever the user asks to write, draft, or edit a post for depr
 
 - Read `AGENTS.md` at the repo root. It's the actual source of truth for file location, naming, and CI expectations, and it can change after this skill was written.
 - Skim two or three existing posts in `content/blog/` closest in subject to what you're writing, to recalibrate voice before drafting. The voice section below is a starting point, not a substitute for reading recent examples.
-- If the post is about a project or tool the user built, read that project's own README, `docs/`, and any internal knowledge folder (one post here drew on a project's own `wiki-llm/` folder) before writing a single claim about how it works. Never invent behavior. If a draft claim contradicts the source docs, the docs win, fix the draft.
+- If the post is about a project or tool the user built, read that project's own README, `docs/`, and any internal knowledge folder (one post here drew on a project's own `wiki-llm/` folder) before writing a single claim about how it works. Never invent behavior, and never take the user's own recollection of how their project works as the final word either, they'll say "IIRC" or describe a mechanism from memory and get a detail wrong. Check it against the actual docs before it goes in the post. The wiki/docs are the source of truth, not the user's memory and not your assumption. If a draft claim contradicts the source docs, the docs win, fix the draft.
+- Reading that source material is for your own accuracy, not for the reader. Don't link the post to a GitHub repo, a `wiki-llm/`-style internal folder, or anything else in the source code unless the user has confirmed it's actually public. A reader of the blog post has no reason to have access to the project's source, and a link or mention that assumes they do (e.g. "the source is public, see the `wiki-llm/` folder") is a claim you haven't verified. Don't guess a repo is public from its remote URL either, ask, or leave the reference out.
 
 ## Voice
 
@@ -23,6 +24,10 @@ Write the way the user actually talks about their own work: direct, first person
 Reject invented metaphors and marketing filler ("it just stops being the thing your thumb hits first", "barely take up space"). Say the mechanism plainly instead: it hides the post, it shrinks it to a thin row.
 
 When explaining how something works technically, stay precise, but say only what's needed to justify the point being made, don't teach a mini-course on the underlying concept unless the user asked for that. If the question on the table is "why did you pick this model," answer that; don't first explain what an embedding is.
+
+This post is for anyone curious on the internet, not for a developer who might contribute to the project. If the source has an architecture diagram with named pieces (a content script, an iframe, a worker, whatever), and you're using that diagram in the post, actually explain what each piece does, in plain terms, don't caption a diagram with three technical names and then talk around it in the prose, and don't collapse it into one vague sentence that could describe any app ("it checks your feed and keeps things private" says nothing on its own). Use the diagram's own names for the pieces (don't paraphrase them as "the first part", "a second piece", the reader is looking at the picture and matching your words to its labels), and say what each one's job is, in order, the way you'd explain it out loud to someone standing next to you. What you leave out is the *why*: the engineering constraints that made the split necessary (why a background process couldn't do it, what a browser blocks, what had to be worked around). That justification is real and often interesting, but it's a level down from "how it works," it belongs in the project's own docs, not in a post for a general reader.
+
+Watch the connotation of words describing internal mechanics, not just their technical accuracy. "Hidden," "invisible," "silently" and similar are accurate descriptions of an iframe or background process, but to a reader who isn't a developer they land as "this thing is doing something behind your back", which is the opposite of what a privacy-focused post should sound like. Say what the part does (it's a separate step, it runs off to the side) instead of how it's built (it's hidden, it's invisible). This holds even when the diagram's own label uses the word, e.g. a box labeled "hidden iframe": use its short name ("the iframe") in prose and drop the adjective, the "use the diagram's own names" rule above is about which noun to use for each piece, not about repeating every word in its label.
 
 Contractions are normal. Paragraphs are short. No emoji. Bullets are for scannable lists (settings, options), never for storytelling, narrative sections read as prose.
 
@@ -49,8 +54,7 @@ Follow `AGENTS.md`'s "Writing / editing a post" section literally. As of this wr
 
 ## Before calling it done
 
-- `npx prettier --check content/blog/<file>.md` (or `--write` to fix it). CI enforces formatting.
-- Actually render the post: start `npm run dev`, then poll rather than sleep once (`curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/blog/<slug>/` in a short retry loop, first compile takes a few seconds), and spot-check the rendered HTML has the images and content you expect. Kill the dev server when done. Don't tell the user a post works without having done this.
+Right before a commit (not after every small edit along the way, see below): run `npx prettier --check content/blog/<file>.md` (or `--write` to fix it, CI enforces formatting), and actually render the post, start `npm run dev`, poll rather than sleep once (`curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/blog/<slug>/` in a short retry loop, first compile takes a few seconds), spot-check the rendered HTML has the images and content you expect, then kill the dev server. Don't tell the user a post works without having done this at least once before it's committed.
 
 ## Git
 
@@ -58,4 +62,6 @@ Follow `AGENTS.md`'s "Writing / editing a post" section literally. As of this wr
 
 ## Iterating on feedback
 
-The user reviews in small rounds: resize an image, fix a claim, redo one section's tone. Apply exactly what they asked, keep the diff scoped to that instead of rewriting untouched sections while you're in there, re-run prettier and the render check, and commit each round separately with a message that says what changed and, where it's non-obvious, why.
+The user reviews in small rounds: resize an image, fix a claim, redo one section's tone, simplify a section further. Apply exactly what they asked, keep the diff scoped to that instead of rewriting untouched sections while you're in there.
+
+Don't run prettier or the render check after every one of these small rounds, and don't commit after every one either, both were tried and the user shut them down explicitly. Mid-round, just make the edit and say what changed. Do the format-check-and-render pass once, right before a commit, not on every edit in between. Only commit when the user asks for it, or once a batch of related edits has actually settled (e.g. right before they ask you to push). When you do commit, it's fine for one commit to cover several of these small rounds at once.
