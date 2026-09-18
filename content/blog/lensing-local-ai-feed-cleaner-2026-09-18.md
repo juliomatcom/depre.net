@@ -1,24 +1,24 @@
 # Lensing, a local AI feed cleaner for your social feeds
 
-<!-- description: Lensing is a browser extension that blurs off-topic posts on X, LinkedIn and Reddit using a small language model that runs entirely on your device. Here's why I built it and how the on-device model actually works. -->
+<!-- description: Lensing is a browser extension that hides off-topic posts on X, LinkedIn and Reddit using a small language model that runs entirely on your device. Here's why I built it and how the on-device model actually works. -->
 
 ![Lensing icon and wordmark, "Blur what's off topic", on a dark background](/images/lensing-promo.png)
 
-A few days ago I shipped [Lensing](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) to the Chrome Web Store. It's a browser extension that hides the posts in your feed that don't match topics you actually care about. It runs entirely on your device, your feed never leaves your browser, and how aggressive it is is up to you.
+A few days ago I shipped [Lensing](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) to the Chrome Web Store. It's a browser extension that hides the posts in your feed that don't match topics you actually care about. It runs entirely on your device, your feed never leaves your browser, and you control how aggressive it is.
 
 ## Why I built it
 
-I kept opening LinkedIn or X to check on one specific thing and leaving twenty minutes later having read none of it. Rage bait, the outrage of the day, someone's hot take on a topic I never asked to hear about. The feed's job is to keep you scrolling, not to show you what you actually opened the app for, and those two goals overlap less every year. I wanted a filter that worked for me instead of for the platform's engagement numbers.
+Every time I opened LinkedIn or X to check on one thing, I ended up reading twenty minutes of rage bait, cringe posts, and someone's hot take I never asked for before I got to anything I actually cared about. The feed doesn't care why you opened the app, it cares that you keep scrolling. I wanted something that filtered for me instead of for the platform.
 
 ## Privacy first
 
-The one thing I was not willing to ship was an extension that reads your feed and sends it somewhere. Your feed is one of the more personal things about you: who you follow, what you stop on, what you scroll past without a second look. Keeping that on your device wasn't a nice-to-have, it was the actual point of building this. A "privacy tool" that phones home to work isn't a privacy tool, it's a data collector with a better pitch.
+I wasn't going to ship an extension that reads your feed and sends it somewhere. Your feed says a lot about you, who you follow, what you stop on, what you scroll past. That's not something I wanted touching a server, mine or anyone else's. If a "privacy tool" needs to phone home to work, it's not a privacy tool, it's just data collection with better marketing.
 
-So everything runs on-device. Lensing reads the text of a post in your browser, scores it in your browser, and forgets it. No account, no server, no analytics, nothing to log even if I wanted to. That one constraint, local only, no exceptions, is also what decided the whole architecture, which is the part I actually want to talk about.
+So everything runs on your device. Lensing reads a post, scores it, forgets it, all inside your browser. No account, no server, no analytics, nothing to log even if I wanted to. That one rule, local only, no exceptions, ended up shaping the whole architecture, which is the part I actually want to get into.
 
 ## Why AI, and why now
 
-This only works because small models finally got good enough to run in a browser tab. A few years back, "local AI" meant a toy model that could barely hold a sentence together. Now Whisper.cpp transcribes audio offline on a laptop, Ollama runs a genuinely useful coding model on your own GPU, Apple does on-device summarization on an iPhone, Chrome itself ships a small model on-device for tasks like this. Same trend everywhere: push the model down to the device instead of the data up to a server, because the device finally got fast enough and people got tired of paying the latency and the privacy tax of a round trip. Lensing rides that same wave, just for one narrow job: read a post, decide if it's actually about what you said you care about.
+This only works because small models got good enough to run in a browser tab. A few years ago "local AI" meant a toy model that could barely finish a sentence. Now Whisper.cpp transcribes audio offline on a laptop, Ollama runs a real coding model on your own GPU, Apple does on-device summarization on an iPhone, Chrome ships a small model on-device for stuff like this. The device finally got fast enough, so why send the data anywhere. Lensing does the same thing for one job: read a post, decide if it's actually about what you said you care about.
 
 ## The model doing the work: E5-small-v2
 
