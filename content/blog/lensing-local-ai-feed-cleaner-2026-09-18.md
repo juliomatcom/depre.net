@@ -38,6 +38,8 @@ Strictness is a 0–10 slider, and every step is a measured threshold rather tha
 
 There's also a thumbs-up/thumbs-down option, off by default. Rating a post nudges the vector for whichever topic came closest to claiming it, pulling it toward what you kept and away from what you blurred. There's no keyword extraction hiding in there to inspect, the post goes in as one string and comes back as one vector, so a correction lives on the topic line it shaped, and rating the same post again just undoes it.
 
+None of that tuning is stuck on one machine either. The popup can export your topics, strictness, and every correction you've made into a single backup file, and import it back on another browser or another computer. So if you've spent a few weeks training Lensing on what "on-topic" means to you, you can hand that same tuning to your laptop, your work computer, wherever else you use it, instead of starting over.
+
 ## Next steps
 
 Right now Lensing is Chrome Web Store only. The build already runs on Firefox, MV3 works there too, it's just not published to Firefox Add-ons or the Microsoft Edge store yet. That's next, and it's not just a box to check: Firefox for Android only installs extensions that come from a curated AMO collection, no sideloading. Getting listed there is what actually puts Lensing on a phone, not a separate mobile build.
