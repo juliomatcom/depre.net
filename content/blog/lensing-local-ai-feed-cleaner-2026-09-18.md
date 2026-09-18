@@ -36,7 +36,7 @@ The paper's headline result: without training on any labeled data for the target
 
 ## How it works
 
-<img src="/images/lensing-how-it-works.svg" alt="Flowchart: the content script on the host page exchanges post text and scores with a hidden extension-origin iframe, which hands text to a worker thread running e5-small-v2 to embed and score it against your topics" style="max-width: 193px;" />
+<img src="/images/lensing-how-it-works.svg" alt="Flowchart: the content script on the host page exchanges post text and scores with a hidden extension-origin iframe, which hands text to a worker thread running e5-small-v2 to embed and score it against your topics" style="max-width: 290px;" />
 
 Three pieces, each for one reason. The **content script** lives inside the page, so it's the only part that can read the feed or blur anything. The **iframe** exists because a content script can't spawn an extension-origin worker directly, cross-origin, blocked by the host page's own CSP, but a document already sitting on the extension's origin can. The **worker** runs on its own thread so scoring never blocks scrolling.
 
