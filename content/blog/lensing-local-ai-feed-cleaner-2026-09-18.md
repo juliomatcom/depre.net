@@ -1,7 +1,5 @@
 # Lensing, a local AI feed cleaner for your social feeds
 
-*This post was co-authored with Claude.*
-
 <!-- description: Lensing is a browser extension that blurs off-topic posts on X, LinkedIn and Reddit using a small language model that runs entirely on your device. Here's why I built it and how the on-device model actually works. -->
 
 ![Lensing icon and wordmark, "Blur what's off topic", on a dark background](/images/lensing-promo.png)
@@ -61,3 +59,5 @@ Right now Lensing is Chrome Web Store only. The build already runs on Firefox, M
 [Lensing](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) works on X, LinkedIn and Reddit today. Pick a few topics, give it a feed, and see what's left once the noise is gone.
 
 If you like this post, don't forget to say hi.
+
+<small><em>This post was co-authored with Claude.</em></small>
