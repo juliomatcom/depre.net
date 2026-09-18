@@ -29,7 +29,9 @@ This post is for anyone curious on the internet, not for a developer who might c
 
 Watch the connotation of words describing internal mechanics, not just their technical accuracy. "Hidden," "invisible," "silently" and similar are accurate descriptions of an iframe or background process, but to a reader who isn't a developer they land as "this thing is doing something behind your back", which is the opposite of what a privacy-focused post should sound like. Say what the part does (it's a separate step, it runs off to the side) instead of how it's built (it's hidden, it's invisible). This holds even when the diagram's own label uses the word, e.g. a box labeled "hidden iframe": use its short name ("the iframe") in prose and drop the adjective, the "use the diagram's own names" rule above is about which noun to use for each piece, not about repeating every word in its label.
 
-Contractions are normal. Paragraphs are short. No emoji. Bullets are for scannable lists (settings, options), never for storytelling, narrative sections read as prose.
+Contractions are normal. Paragraphs are short. Bullets are for scannable lists (settings, options), never for storytelling, narrative sections read as prose.
+
+On emoji: don't add them yourself when drafting, this blog's baseline is plain text. But if the user adds one, in a heading or inline, while editing, that's them setting the tone for that post, not a slip to clean up. Confirmed on the Lensing post: a couple of emoji in section headings and one inline read as "very much how I usually write" once asked. Leave user-added emoji alone unless they say otherwise.
 
 When in doubt, prefer the plainest way to say a true thing over a polished way to say it.
 
