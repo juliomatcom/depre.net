@@ -1,5 +1,4 @@
 # Tapebull, my improved TradingView
-*This post was co-authored with Grok 4.6.*
 
 ![](/images/setups.png)
 
@@ -89,3 +88,5 @@ Algorithms
 If you like this post, don't forget to say hi.
 
 Updated: 08-26-2026
+
+<small><em>This post was co-authored with Grok 4.6.</em></small>

@@ -2,8 +2,6 @@
 
 ![machine](/images/machine.jpeg)
 
-*This post was co-authored with Claude.*
-
 AI isn't a choice anymore. I go AI-first on everything now, and the harder the problem, the more reason to ask "what would Claude or Codex do here?" before I write a line. In the big scheme of things I still decide which direction we go, but the day-to-day moves are a conversation. There's no way back to coding straight from my head. That now feels like refusing to use a compiler.
 
 But it's expensive. Every frontier provider wants a subscription, and the good ones want a real one. Most people I know pay for exactly one and then defend it like a football team. That's a bad deal. No provider is best at everything: one wins on hard reasoning, another on long mechanical edits, another is just cheaper for the stuff that doesn't need a genius. Lock into one and you're either overpaying for easy work or underpowered on the hard parts.
@@ -51,3 +49,5 @@ Where it goes next: more providers, because people use more than four CLIs. Smar
 *Why Baya sits alongside your CLIs and what it does for your bill: [the FAQ](https://baya-cli.depre.net/faq/).*
 
 If you pay for your own AI subscriptions, [give it a look](https://baya-cli.depre.net). And if you try it, say hi.
+
+<small><em>This post was co-authored with Claude.</em></small>
