@@ -28,10 +28,6 @@ Without AI, filtering your feed for relevance would require either lots of infle
 
 A few years ago "local AI" meant a toy model that could barely finish a sentence, today you can run sophisticated models right in your browser tab. The device finally got fast enough, so why send the data anywhere. Lensing does the same thing for one job: read a post, decide if it's actually about what you said you care about.
 
-## The model doing the work: E5-small-v2
-
-Lensing runs on E5-small-v2, a text embedding model out of Microsoft, and it's a good fit for exactly this job for three reasons. It's tiny, 33M parameters, small enough to run inside a browser tab without melting the page. It didn't need hand-labeled training data to get good, it was trained on naturally occurring pairs of text scraped from the internet, so it generalizes to "is this post about my topic" without me fine-tuning anything. And despite the size it's not a toy: zero-shot, it was the first embedding model to beat BM25, the decades-old keyword-search algorithm, on a standard benchmark, and after fine-tuning it beat models forty times its size. That's the ratio that matters when the thing has to run on a phone instead of a rack of GPUs.
-
 ## How it works 🤓
 
 <img src="/images/lensing-how-it-works.svg" alt="Flowchart: the content script on the host page exchanges post text and scores with a hidden extension-origin iframe, which hands text to a worker thread running e5-small-v2 to embed and score it against your topics" style="max-width: 290px;" />
@@ -39,6 +35,13 @@ Lensing runs on E5-small-v2, a text embedding model out of Microsoft, and it's a
 The picture shows three pieces, and each one does one job. The **content script** sits right inside the page, watching your feed as you scroll, it's the only one that can actually see a post and blur it. As posts come in, it hands their text off to the **iframe**, whose only job is passing that text along and bringing a score back. That score comes from the **worker**, where the model itself lives: it reads the text, compares it to your topics, and works out how close a match it is.
 
 Splitting the work like that keeps the actual thinking off to the side, so it never slows down your scrolling. It's also why nothing about your feed goes anywhere: each part only ever passes along a bit of text or a number, never the page itself, and none of it leaves your device.
+
+### The model
+
+Lensing runs on E5-small-v2, a text embedding model out of Microsoft, and it's a good fit for exactly this job for three reasons. It's tiny, 33M parameters, small enough to run inside a browser tab without melting the page. It didn't need hand-labeled training data to get good, it was trained on naturally occurring pairs of text scraped from the internet, so it generalizes to "is this post about my topic" without me fine-tuning anything. And despite the size it's not a toy: zero-shot, it was the first embedding model to beat BM25, the decades-old keyword-search algorithm, on a standard benchmark, and after fine-tuning it beat models forty times its size. That's the ratio that matters when the thing has to run on a phone instead of a rack of GPUs.
+
+<small><em>Credits to: Wang, Liang and Yang, Nan and Huang, Xiaolong and Jiao, Binxing and Yang, Linjun and Jiang, Daxin and Majumder, Rangan and Wei, Furu</em></small>
+
 
 ## Improving your feeds even more
 
