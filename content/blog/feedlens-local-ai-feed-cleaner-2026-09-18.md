@@ -4,7 +4,7 @@
 
 ![FeedLens icon and wordmark, "Blur what's off topic", on a dark background](/images/lensing-promo.png)
 
-A few days ago I shipped [FeedLens](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) to the Chrome Web Store. It's a browser extension that hides the posts in your feed that don't match topics you actually care about. It runs entirely on your device, your feed never leaves your browser, and you control how aggressive it is.
+A few days ago I shipped [FeedLens](https://chromewebstore.google.com/detail/ahlojbckjlffcfdhmkjepaglnhhpmdck) to the Chrome Web Store. It's a browser extension that hides the posts in your feed that don't match topics you actually care about. It runs entirely on your device, your feed never leaves your browser, and you control how aggressive it is.
 
 ## Why I built it 🧑🏽‍💻
 
@@ -57,7 +57,7 @@ Right now FeedLens is Chrome Web Store only. The build already runs on Firefox, 
 
 ## Try it
 
-[FeedLens](https://chromewebstore.google.com/detail/lensing/ahlojbckjlffcfdhmkjepaglnhhpmdck) works on X, LinkedIn and Reddit today. Pick a few topics, give it a feed, and see what's left once the noise is gone.
+[FeedLens](https://chromewebstore.google.com/detail/ahlojbckjlffcfdhmkjepaglnhhpmdck) works on X, LinkedIn and Reddit today. Pick a few topics, give it a feed, and see what's left once the noise is gone.
 
 So, how are you dealing with brain engineering in your social feeds?
 
