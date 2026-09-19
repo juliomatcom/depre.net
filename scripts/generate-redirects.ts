@@ -7,10 +7,7 @@ const OUT = path.join(process.cwd(), 'out');
 
 /** Posts renamed after publishing: old slug -> new slug. */
 const RENAMED_POSTS: [oldSlug: string, newSlug: string][] = [
-  [
-    'lensing-local-ai-feed-cleaner-2026-09-18',
-    'feedlens-local-ai-feed-cleaner-2026-09-18',
-  ],
+  ['lensing-local-ai-feed-cleaner-2026-09-18', 'feedlens-local-ai-feed-cleaner-2026-09-18'],
 ];
 
 /** A minimal client-side redirect page for old, now-moved URLs. */
