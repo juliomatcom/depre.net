@@ -2,7 +2,7 @@
 
 <!-- description: uFeed is a browser extension that hides off-topic posts on X, LinkedIn and Reddit using a small language model that runs entirely on your device. Here's why I built it and how the on-device model actually works. -->
 
-![uFeed icon and wordmark, "Blur what's off topic", on a dark background](/images/lensing-promo.png)
+![uFeed icon and wordmark, "Hide what's off topic", on a dark background](/images/ufeed-promo.png)
 
 A few days ago I shipped [uFeed](https://chromewebstore.google.com/detail/ahlojbckjlffcfdhmkjepaglnhhpmdck) to the Chrome Web Store. It's a browser extension that hides the posts in your feed that don't match topics you actually care about. It runs entirely on your device, your feed never leaves your browser, and you control how aggressive it is.
 
